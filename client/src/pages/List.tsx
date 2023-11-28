@@ -1,20 +1,23 @@
 import AppHeader from '../layouts/AppHeader';
 import AppFooter from '../layouts/AppFooter';
 
-import ITouristItem from '../types/ITouristItem';
 import TouristList from '../components/TouristList';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { selectProvinces } from '../store/provinces/provinceSlice';
-import { selectTourists, filterByProvince, filterByKeyword } from '../store/tourists/touristsSlice';
+import {
+  selectTouristList,
+  selectProvinceList,
+  filterByProvince,
+  filterByKeyword
+} from '../store/tourist/touristSlice';
 
 export default function List() {
   // const { provinceMap, provinceList } = initialState;
   // const [selectedTourist, setSelectedTourist] = useState<ITouristItem[]>(TouristData);
   const dispatch = useDispatch();
-  const { provinceMap, provinceList } = useSelector(selectProvinces);
-  const touristData = useSelector(selectTourists);
+  const provinceList = useSelector(selectProvinceList);
+  const touristList = useSelector(selectTouristList);
 
   const options = provinceList.map((province: string) => (
     <option key={province}>{province}</option>
@@ -48,7 +51,9 @@ export default function List() {
               {options}
             </select>
           </div>
-          <TouristList items={touristData} />
+          <div className="flex flex-col gap-2 my-4">
+            <TouristList items={touristList} />
+          </div>
         </div>
       </main>
       <AppFooter />

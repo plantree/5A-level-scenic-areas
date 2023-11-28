@@ -1,10 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { provincesSlice } from './provinces/provinceSlice';
-import { touristsSlice } from './tourists/touristsSlice';
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from 'redux-persist';
+import { touristsSlice } from './tourist/touristSlice';
 
-export default configureStore({
+const persistConfig = {
+  key: 'root',
+  storage
+};
+
+const persistedReducer = persistReducer(persistConfig, touristsSlice.reducer);
+
+export const store = configureStore({
   reducer: {
-    provinces: provincesSlice.reducer,
-    tourists: touristsSlice.reducer
+    tourists: persistedReducer
   }
 });
+
+export const persistor = persistStore(store);

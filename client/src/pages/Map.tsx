@@ -2,9 +2,8 @@ import AppHeader from '../layouts/AppHeader';
 import AppFooter from '../layouts/AppFooter';
 
 import { useSelector } from 'react-redux';
-import { selectTourists } from '../store/tourists/touristsSlice';
+import { selectTouristList } from '../store/tourist/touristSlice';
 
-import { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 import 'leaflet/dist/leaflet.css';
@@ -33,16 +32,19 @@ const baiduCRS = new Proj.CRS(
 );
 
 export default function Map() {
-  const touristData = useSelector(selectTourists);
-  const markers = touristData.map((item) => {
+  const touristList = useSelector(selectTouristList);
+  const markers = touristList.map((item) => {
     const { name, province, year, location } = item;
     return (
       <Marker position={[location.lat, location.lng]} key={name}>
-        <Popup>{name}</Popup>
+        <Popup>
+          {name}
+          <br />
+          {province}/{year}
+        </Popup>
       </Marker>
     );
   });
-  console.log(markers);
 
   return (
     <div className="flex flex-col min-h-screen justify-between">
@@ -53,7 +55,7 @@ export default function Map() {
           center={[35.55492, 104.71123]}
           zoom={5}
           minZoom={4}
-          className="w-full h-full"
+          className="w-full h-full z-0"
         >
           <TileLayer
             attribution='&copy; <a href="https://map.baidu.com/zt/client/copyright/">Baidu Map</a> contributors'

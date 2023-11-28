@@ -11,6 +11,8 @@ def get_geocode(address):
     """
     Get the coordinates of the address.
     """
+    if address == '新疆生产建设兵团第十师白沙湖景区':
+        address = '白沙湖景区'
     params = {
         'address': address,
         'output': 'json',
