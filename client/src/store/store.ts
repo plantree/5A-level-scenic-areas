@@ -1,18 +1,36 @@
 import { configureStore } from '@reduxjs/toolkit';
-import storage from 'redux-persist/lib/storage';
-import { persistReducer, persistStore } from 'redux-persist';
+import storageSession from 'redux-persist/lib/storage/session';
+import {
+  persistReducer,
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER
+} from 'redux-persist';
 import { touristsSlice } from './tourist/touristSlice';
 
 const persistConfig = {
   key: 'root',
-  storage
+  storage: storageSession
 };
 
 const persistedReducer = persistReducer(persistConfig, touristsSlice.reducer);
 
+// Reference:
+// 1. https://redux-toolkit.js.org/usage/usage-guide#use-with-redux-persist
 export const store = configureStore({
   reducer: {
     tourists: persistedReducer
+  },
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
+      }
+    });
   }
 });
 

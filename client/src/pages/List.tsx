@@ -1,23 +1,26 @@
 import AppHeader from '../layouts/AppHeader';
 import AppFooter from '../layouts/AppFooter';
 
-import TouristList from '../components/TouristList';
+import Pagination from '../components/Pagination';
 
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
   selectTouristList,
+  selectedProvince,
   selectProvinceList,
+  seletcCurPage,
   filterByProvince,
-  filterByKeyword
+  filterByKeyword,
+  setCurPage
 } from '../store/tourist/touristSlice';
 
 export default function List() {
-  // const { provinceMap, provinceList } = initialState;
-  // const [selectedTourist, setSelectedTourist] = useState<ITouristItem[]>(TouristData);
   const dispatch = useDispatch();
   const provinceList = useSelector(selectProvinceList);
+  const selectedProvice = useSelector(selectedProvince);
   const touristList = useSelector(selectTouristList);
+  const curPage = useSelector(seletcCurPage);
 
   const options = provinceList.map((province: string) => (
     <option key={province}>{province}</option>
@@ -41,7 +44,7 @@ export default function List() {
             />
             <select
               className="select select-bordered select-sm max-w-xs"
-              defaultValue={'all'}
+              defaultValue={selectedProvice}
               onChange={(e) => {
                 const value = e.currentTarget.value;
                 dispatch(filterByProvince(value));
@@ -51,8 +54,14 @@ export default function List() {
               {options}
             </select>
           </div>
-          <div className="flex flex-col gap-2 my-4">
-            <TouristList items={touristList} />
+          <div className="flex flex-col gap-4 my-4">
+            <Pagination
+              items={touristList}
+              curPage={curPage}
+              onHandlePageChange={(page) => {
+                dispatch(setCurPage(page));
+              }}
+            />
           </div>
         </div>
       </main>
