@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
+    "appwrite": "^13.0.1",
     "leaflet": "^1.9.4",
     "proj4leaflet": "^1.0.2",
     "react": "^18.2.0",

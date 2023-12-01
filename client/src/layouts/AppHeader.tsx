@@ -1,10 +1,55 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Dialog } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import GitHub from '../components/icons/GitHub';
 
-export default function Example() {
+import { account } from '../lib/appwrite';
+import type { Models } from 'appwrite';
+
+export default function AppHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState<Models.User<Models.Preferences>>();
+
+  useEffect(() => {
+    let ignore = false;
+    account.get().then((user) => {
+      if (!ignore) {
+        setLoggedInUser(user);
+      }
+    });
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  function handleLogin() {
+    if (!loggedInUser) {
+      return (
+        <a href="/login" className="btn btn-ghost text-sm font-semibold leading-6 text-gray-900">
+          登陆 <span aria-hidden="true">&rarr;</span>
+        </a>
+      );
+    }
+    if (!mobileMenuOpen) {
+      return (
+        <a
+          href={`/profile/${loggedInUser.name}`}
+          className="btn btn-ghost lowercase text-sm font-semibold leading-6 text-gray-900"
+        >
+          {loggedInUser.name}
+        </a>
+      );
+    } else {
+      return (
+        <a
+          href={`/profile/${loggedInUser.name}`}
+          className="text-sm font-semibold leading-6 text-gray-900"
+        >
+          {loggedInUser.name}
+        </a>
+      );
+    }
+  }
 
   return (
     <header className="bg-white border-b border-slate-900/10">
@@ -28,17 +73,15 @@ export default function Example() {
           </button>
         </div>
         <div className="hidden lg:flex lg:gap-x-12">
-          <a href="/list" className="text-sm font-semibold leading-6 text-gray-900">
+          <a href="/list" className="btn btn-ghost text-sm font-semibold leading-6 text-gray-900">
             列表
           </a>
-          <a href="/map" className="text-sm font-semibold leading-6 text-gray-900">
+          <a href="/map" className="btn btn-ghost text-sm font-semibold leading-6 text-gray-900">
             地图
           </a>
         </div>
-        <div className="hidden lg:flex lg:gap-6 lg:flex-1 lg:justify-end">
-          <a href="/login" className="text-sm font-semibold leading-6 text-gray-900">
-            登陆 <span aria-hidden="true">&rarr;</span>
-          </a>
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+          {handleLogin()}
           <a
             aria-label="Github"
             target="_blank"
@@ -46,7 +89,9 @@ export default function Example() {
             rel="noopener, noreferrer"
             className="text-sm font-semibold leading-6 text-gray-900"
           >
-            <GitHub />
+            <div className="btn btn-ghost">
+              <GitHub />
+            </div>
           </a>
         </div>
       </nav>
@@ -54,7 +99,7 @@ export default function Example() {
         <div className="fixed inset-0 z-10" />
         <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
+            <a href="/" className="-m-1.5 p-1.5">
               <img src="/favico.svg" className="w-8 h-8" alt="logo" />
             </a>
             <button
@@ -83,12 +128,7 @@ export default function Example() {
                 </a>
               </div>
               <div className="py-6">
-                <a
-                  href="/login"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                >
-                  登陆
-                </a>
+                {handleLogin()}
                 <a
                   aria-label="Github"
                   target="_blank"

@@ -2,8 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
+
 import List from './pages/List.tsx';
 import Map from './pages/Map.tsx';
+import Login from './pages/Login.tsx';
+import Profile from './pages/Profile.tsx';
+
 import { Provider } from 'react-redux';
 import { persistor, store } from './store/store.ts';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -24,6 +28,14 @@ const router = createBrowserRouter([
   {
     path: '/map',
     element: <Map />
+  },
+  {
+    path: '/login',
+    element: <Login />
+  },
+  {
+    path: '/profile/:name',
+    element: <Profile />
   }
 ]);
 

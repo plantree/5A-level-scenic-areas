@@ -29,7 +29,7 @@ export default function List() {
   return (
     <div className="flex flex-col min-h-screen justify-between">
       <AppHeader />
-      <main className="flex-grow mt-4 mx-8 md:mx-32">
+      <main className="flex-grow mt-4 mx-4">
         <div className="flex flex-col gap-4">
           <h2 className="font-bold text-lg text-center">5A级景区筛选</h2>
           <div className="flex gap-x-4 justify-center">
@@ -40,6 +40,7 @@ export default function List() {
               onChange={(e) => {
                 const value = e.currentTarget.value;
                 dispatch(filterByKeyword(value));
+                curPage !== 1 && dispatch(setCurPage(1));
               }}
             />
             <select
@@ -48,6 +49,7 @@ export default function List() {
               onChange={(e) => {
                 const value = e.currentTarget.value;
                 dispatch(filterByProvince(value));
+                curPage !== 1 && dispatch(setCurPage(1));
               }}
             >
               <option value="all">全部</option>
