@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
+import Index from './pages/Index.tsx';
 import List from './pages/List.tsx';
 import Map from './pages/Map.tsx';
 import Login from './pages/Login.tsx';
@@ -19,23 +20,29 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-    errorElement: <ErrorPage />
-  },
-  {
-    path: '/list',
-    element: <List />
-  },
-  {
-    path: '/map',
-    element: <Map />
-  },
-  {
-    path: '/login',
-    element: <Login />
-  },
-  {
-    path: '/profile/:name',
-    element: <Profile />
+    errorElement: <ErrorPage />,
+    children: [
+      {
+        path: '/',
+        element: <Index />
+      },
+      {
+        path: '/list',
+        element: <List />
+      },
+      {
+        path: '/map',
+        element: <Map />
+      },
+      {
+        path: '/login',
+        element: <Login />
+      },
+      {
+        path: '/profile/:name',
+        element: <Profile />
+      }
+    ]
   }
 ]);
 
