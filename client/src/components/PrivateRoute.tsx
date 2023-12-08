@@ -1,27 +1,11 @@
-import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 interface PrivateRouteProps {
-  elemement: React.ReactNode;
   isAuthenticated: boolean;
-  fallbackPath: string;
+  redirectPath: string;
 }
 
 export default function PrivateRoute(props: PrivateRouteProps) {
-  const { elemement, isAuthenticated, fallbackPath } = props;
-  return (
-    <Route
-      element={
-        isAuthenticated ? (
-          elemement
-        ) : (
-          <Navigate
-            to={{
-              pathname: fallbackPath
-            }}
-          />
-        )
-      }
-    />
-  );
+  const { isAuthenticated, redirectPath } = props;
+  return isAuthenticated ? <Outlet /> : <Navigate to={redirectPath} />;
 }
