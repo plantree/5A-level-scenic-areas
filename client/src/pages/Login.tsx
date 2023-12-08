@@ -62,6 +62,7 @@ export default function Login() {
     try {
       await account.deleteSession('current');
       resetAlert();
+      navigate('/');
     } catch (e: unknown) {
       setAlertStatus(LoginStatus.Warning);
       setAlertMsg((e as AppwriteException).message);

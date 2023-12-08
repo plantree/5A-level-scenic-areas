@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
-import { Routes, Route, Outlet } from 'react-router-dom';
+import { Routes, Route, useLoaderData } from 'react-router-dom';
 
-import AppHeader from './layouts/AppHeader';
-import AppFooter from './layouts/AppFooter';
+import Layout from './layouts/Layout.tsx';
 import PrivateRoute from './components/PrivateRoute';
 
 import Index from './pages/Index.tsx';
@@ -11,50 +9,29 @@ import Map from './pages/Map.tsx';
 import Login from './pages/Login.tsx';
 import Profile from './pages/Profile.tsx';
 
-import { account } from './lib/appwrite';
 import { Models } from 'appwrite';
+import ErrorPage from './error-page.tsx';
 
 function App() {
-  const [loggedUser, setLoggedUser] = useState<Models.User<Models.Preferences> | undefined>(
-    undefined
-  );
-
-  useEffect(() => {
-    let ignore = false;
-    if (!ignore) {
-      account.get().then((res) => {
-        setLoggedUser(res);
-      });
-      return () => {
-        ignore = true;
-      };
-    }
-  }, []);
+  const loggedUser = useLoaderData() as Models.User<Models.Preferences> | undefined;
 
   return (
-    <div className="flex flex-col min-h-screen justify-between">
-      <AppHeader loggedUser={loggedUser} />
-      <Routes>
+    <Routes>
+      <Route path="*" element={<ErrorPage />} />
+      <Route element={<Layout loggedUser={loggedUser} />}>
+        {' '}
         <Route path="/" element={<Index />} />
         <Route path="/list" element={<List />} />
         <Route path="/map" element={<Map />} />
-        <Route
-          path="/login"
-          element={<PrivateRoute isAuthenticated={!loggedUser} redirectPath="/" />}
-        >
-          <Route path="/login" element={<Login />} />
-        </Route>
-
+        <Route path="/login" element={<Login />} />
         <Route
           path="/profile/:name"
           element={<PrivateRoute isAuthenticated={!!loggedUser} redirectPath="/login" />}
         >
           <Route path="/profile/:name" element={<Profile />} />
         </Route>
-      </Routes>
-      <Outlet />
-      <AppFooter />
-    </div>
+      </Route>
+    </Routes>
   );
 }
 

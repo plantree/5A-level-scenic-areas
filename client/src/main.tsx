@@ -8,13 +8,13 @@ import { persistor, store } from './store/store.ts';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import ErrorPage from './error-page.tsx';
+import { accountLoader } from './lib/appwrite';
 
 const router = createBrowserRouter([
   {
     path: '*',
     element: <App />,
-    errorElement: <ErrorPage />
+    loader: () => accountLoader()
   }
 ]);
 
