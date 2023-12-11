@@ -13,6 +13,7 @@ export default function TouristList({ items }: { items: ITouristItem[] }) {
           <th>名字</th>
           <th>省份</th>
           <th>年度</th>
+          <th>标记</th>
         </tr>
       </thead>
       <tbody>{touristList}</tbody>
