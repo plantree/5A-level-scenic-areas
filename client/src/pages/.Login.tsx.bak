@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { account, ID } from '../lib/appwrite';
+import type { AppwriteException } from 'appwrite';
 
 import { LoginStatus } from '../types/Login';
 import InfoAlert from '../components/icons/InfoAlert';
 import SuccessAlert from '../components/icons/SuccessAlert';
 import ErrorAlert from '../components/icons/ErrorAlert';
 import WarningAlert from '../components/icons/WarningAlert';
-
-import { useUser } from '../context/user';
-import { AppwriteException } from 'appwrite';
 
 function AlertSVG(status: LoginStatus | undefined) {
   switch (status) {
@@ -25,9 +24,6 @@ function AlertSVG(status: LoginStatus | undefined) {
 }
 
 export default function Login() {
-  const user = useUser();
-  const isAuthenticated = user?.current !== null;
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -37,9 +33,14 @@ export default function Login() {
 
   const navigate = useNavigate();
 
+  function resetAlert() {
+    setAlertStatus(undefined);
+    setAlertMsg('');
+  }
+
   async function handleLogin() {
     try {
-      await user?.login(email, password);
+      await account.createEmailSession(email, password);
       navigate('/');
     } catch (e) {
       setAlertStatus(LoginStatus.Warning);
@@ -47,9 +48,9 @@ export default function Login() {
     }
   }
 
-  async function handleRegister() {
+  async function handleSignup() {
     try {
-      await user?.register(email, password, name);
+      await account.create(ID.custom(email), email, password, name);
       handleLogin();
     } catch (e: unknown) {
       setAlertStatus(LoginStatus.Warning);
@@ -59,8 +60,9 @@ export default function Login() {
 
   async function handleLogout() {
     try {
-      await user?.logout();
-      navigate(0);
+      await account.deleteSession('current');
+      resetAlert();
+      navigate('/');
     } catch (e: unknown) {
       setAlertStatus(LoginStatus.Warning);
       setAlertMsg((e as AppwriteException).message);
@@ -70,7 +72,7 @@ export default function Login() {
   return (
     <main className="flex-grow flex flex-col gap-8">
       <h1 className="text-2xl font-bold text-center mt-32">欢迎注册/登陆</h1>
-      <form className="flex flex-col gap-4 items-center" autoComplete="true">
+      <form className="flex flex-col gap-4 items-center">
         <input
           autoComplete="email"
           type="email"
@@ -103,28 +105,25 @@ export default function Login() {
         />
       </form>{' '}
       <div className="flex flex-row gap-4 justify-center">
-        <button className="btn" onClick={() => handleRegister()}>
+        <button className="btn" onClick={() => handleSignup()}>
           注册
         </button>
-        {!isAuthenticated ? (
-          <button
-            className="btn"
-            onClick={() => {
-              handleLogin();
-            }}
-          >
-            登陆
-          </button>
-        ) : (
-          <button
-            className="btn"
-            onClick={() => {
-              handleLogout();
-            }}
-          >
-            注销
-          </button>
-        )}
+        <button
+          className="btn"
+          onClick={() => {
+            handleLogin();
+          }}
+        >
+          登陆
+        </button>
+        <button
+          className="btn"
+          onClick={() => {
+            handleLogout();
+          }}
+        >
+          注销
+        </button>
       </div>
       <div
         role="alert"

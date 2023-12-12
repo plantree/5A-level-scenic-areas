@@ -11,7 +11,6 @@ import {
   REGISTER
 } from 'redux-persist';
 import { touristsSlice } from './tourist/touristSlice';
-import { userSlice } from './user/userSlice';
 
 const persistConfig = {
   key: 'root',
@@ -19,14 +18,12 @@ const persistConfig = {
 };
 
 const touristPersist = persistReducer(persistConfig, touristsSlice.reducer);
-const userPersist = persistReducer(persistConfig, userSlice.reducer);
 
 // Reference:
 // 1. https://redux-toolkit.js.org/usage/usage-guide#use-with-redux-persist
 export const store = configureStore({
   reducer: {
-    tourists: touristPersist,
-    user: userPersist
+    tourists: touristPersist
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware({

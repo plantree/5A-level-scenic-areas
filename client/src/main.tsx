@@ -8,13 +8,11 @@ import { persistor, store } from './store/store.ts';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { accountLoader } from './lib/appwrite';
 
 const router = createBrowserRouter([
   {
     path: '*',
-    element: <App />,
-    loader: () => accountLoader()
+    element: <App />
   }
 ]);
 

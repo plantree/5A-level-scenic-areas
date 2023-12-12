@@ -13,15 +13,6 @@ client.setEndpoint(END_POINT).setProject(PROJECT_ID);
 export const account = new Account(client);
 export { ID } from 'appwrite';
 
-export async function accountLoader() {
-  try {
-    const user = await account.get();
-    return user;
-  } catch (e) {
-    return null;
-  }
-}
-
 // Database.
 const database = new Databases(client);
 export async function createUser(name: string) {

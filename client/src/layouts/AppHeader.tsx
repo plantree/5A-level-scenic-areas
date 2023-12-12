@@ -5,13 +5,12 @@ import GitHub from '../components/icons/GitHub';
 
 import { Link } from 'react-router-dom';
 
-import type { Models } from 'appwrite';
+import { useUser } from '../context/user';
 
-export default function AppHeader({
-  loggedUser = undefined
-}: {
-  loggedUser: Models.User<Models.Preferences> | undefined;
-}) {
+export default function AppHeader() {
+  const user = useUser();
+  const loggedUser = user?.current;
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   function handleLogin() {

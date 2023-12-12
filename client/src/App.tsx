@@ -1,4 +1,4 @@
-import { Routes, Route, useLoaderData } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import Layout from './layouts/Layout.tsx';
 import PrivateRoute from './components/PrivateRoute';
@@ -9,29 +9,27 @@ import Map from './pages/Map.tsx';
 import Login from './pages/Login.tsx';
 import Profile from './pages/Profile.tsx';
 
-import { Models } from 'appwrite';
 import ErrorPage from './error-page.tsx';
 
-function App() {
-  const loggedUser = useLoaderData() as Models.User<Models.Preferences> | undefined;
+import { UserProvider } from './context/user.tsx';
 
+function App() {
   return (
-    <Routes>
-      <Route path="*" element={<ErrorPage />} />
-      <Route element={<Layout loggedUser={loggedUser} />}>
-        {' '}
-        <Route path="/" element={<Index />} />
-        <Route path="/list" element={<List />} />
-        <Route path="/map" element={<Map />} />
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/profile/:name"
-          element={<PrivateRoute isAuthenticated={!!loggedUser} redirectPath="/login" />}
-        >
-          <Route path="/profile/:name" element={<Profile />} />
+    <UserProvider>
+      <Routes>
+        <Route path="*" element={<ErrorPage />} />
+        <Route element={<Layout />}>
+          {' '}
+          <Route path="/" element={<Index />} />
+          <Route path="/list" element={<List />} />
+          <Route path="/map" element={<Map />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/profile/:name" element={<PrivateRoute redirectPath="/login" />}>
+            <Route path="/profile/:name" element={<Profile />} />
+          </Route>
         </Route>
-      </Route>
-    </Routes>
+      </Routes>
+    </UserProvider>
   );
 }
 
