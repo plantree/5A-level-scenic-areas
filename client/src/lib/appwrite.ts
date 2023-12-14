@@ -4,8 +4,8 @@ export const client = new Client();
 
 const END_POINT = 'http://localhost/v1';
 const PROJECT_ID = '656d6955d4c0386a84d3';
-const DATABASE_ID = '657676572d9f3eb6d337';
-const COLLECTION_ID = '657676762f0cf9c3723b';
+export const DATABASE_ID = '657676572d9f3eb6d337';
+export const COLLECTION_ID = '657676762f0cf9c3723b';
 
 client.setEndpoint(END_POINT).setProject(PROJECT_ID);
 
@@ -14,7 +14,7 @@ export const account = new Account(client);
 export { ID } from 'appwrite';
 
 // Database.
-const database = new Databases(client);
+export const database = new Databases(client);
 export async function createUser(name: string) {
   try {
     return await database.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), { name: name }, [

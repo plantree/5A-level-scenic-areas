@@ -1,20 +1,15 @@
 import ITouristItem from '../types/ITouristItem';
-import IUser from '../types/IUser';
 
-import { useSelector, useDispatch } from 'react-redux';
-
-import { selectUser, addItem, removeItem } from '../store/user/userSlice';
+import { useVisit } from '../context/visit';
+import { useEffect, useState } from 'react';
 
 export default function TouristItem({ item }: { item: ITouristItem }) {
-  const dispatch = useDispatch();
-  const user: IUser = useSelector(selectUser);
+  const { addVisit, removeVisit, exist } = useVisit()!;
 
-  function check(name: string) {
-    if (user) {
-      return user.items.includes(name);
-    }
-    return false;
-  }
+  const [checked, setChecked] = useState<boolean>(false);
+  useEffect(() => {
+    setChecked(exist(item.name));
+  }, [item, exist]);
 
   return (
     <tr>
@@ -25,14 +20,16 @@ export default function TouristItem({ item }: { item: ITouristItem }) {
       <td>
         <input
           type="checkbox"
-          checked={check(item.name)}
+          checked={checked}
           className="checkbox"
           onChange={(e) => {
             const value = e.currentTarget.checked;
             if (value) {
-              dispatch(addItem(item.name));
+              addVisit(item.name);
+              setChecked(true);
             } else {
-              dispatch(removeItem(item.name));
+              removeVisit(item.name);
+              setChecked(false);
             }
           }}
         />

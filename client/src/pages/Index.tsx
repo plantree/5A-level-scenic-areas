@@ -1,6 +1,11 @@
 import { Link } from 'react-router-dom';
 
+import { useUser } from '../context/user';
+
 export default function Index() {
+  const user = useUser();
+  const isAuthenticated = user?.current !== null;
+
   return (
     <main className="flex-grow">
       <div className="flex flex-col gap-6 mt-16">
@@ -17,7 +22,7 @@ export default function Index() {
       </div>
       <div className="flex flex-row justify-center gap-4 mt-16">
         <Link to="/login" className="btn md:btn-lg px-4 w-1/4">
-          登陆
+          {isAuthenticated ? '注销' : '登陆'}
         </Link>
         <Link to="/list" className="btn btn-neutral md:btn-lg px-4 w-1/4">
           开始探索<span aria-hidden="true">&rarr;</span>

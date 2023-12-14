@@ -44,10 +44,7 @@ export default function AppHeader() {
 
   return (
     <header className="bg-white border-b border-slate-900/10">
-      <nav
-        className="mx-auto flex max-w-7xl items-center justify-between p-4 lg:px-8"
-        aria-label="Global"
-      >
+      <nav className="mx-auto flex max-w-7xl items-center justify-between p-4" aria-label="Global">
         <div className="flex lg:flex-1">
           <Link to="/" className="-m-1.5 p-1.5">
             <img src="/favico.svg" className="w-8 h-8" alt="logo" />
@@ -70,6 +67,14 @@ export default function AppHeader() {
           <Link to="/map" className="btn btn-ghost text-sm font-semibold leading-6 text-gray-900">
             地图
           </Link>
+          {loggedUser && (
+            <Link
+              to={`/user-map/${loggedUser!.name}`}
+              className="btn btn-ghost text-sm font-semibold leading-6 text-gray-900"
+            >
+              我的地图
+            </Link>
+          )}
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {handleLogin()}
@@ -117,6 +122,14 @@ export default function AppHeader() {
                 >
                   地图
                 </Link>
+                {loggedUser && (
+                  <Link
+                    to={`/user-map/${loggedUser!.name}`}
+                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  >
+                    我的地图
+                  </Link>
+                )}
               </div>
               <div className="py-6">
                 {handleLogin()}
