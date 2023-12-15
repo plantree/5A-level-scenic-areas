@@ -14,32 +14,55 @@ export default function AppHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   function handleLogin() {
+    if (!mobileMenuOpen) {
+      if (!loggedUser) {
+        return (
+          <Link to="/login" className="btn btn-ghost text-sm font-semibold leading-6 text-gray-900">
+            登陆 <span aria-hidden="true">&rarr;</span>
+          </Link>
+        );
+      }
+      return (
+        <>
+          <Link
+            to={`/profile/${loggedUser.name}`}
+            className="btn btn-ghost lowercase text-sm font-semibold leading-6 text-gray-900"
+          >
+            {loggedUser.name}
+          </Link>
+          <Link to="/login" className="btn btn-ghost text-sm font-semibold leading-6 text-gray-900">
+            注销 <span aria-hidden="true">&rarr;</span>
+          </Link>
+        </>
+      );
+    }
     if (!loggedUser) {
       return (
-        <Link to="/login" className="btn btn-ghost text-sm font-semibold leading-6 text-gray-900">
-          登陆 <span aria-hidden="true">&rarr;</span>
+        <Link
+          to="/login"
+          className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+        >
+          登陆<span aria-hidden="true">&rarr;</span>
         </Link>
       );
     }
-    if (!mobileMenuOpen) {
-      return (
+    return (
+      <>
+        {' '}
         <Link
           to={`/profile/${loggedUser.name}`}
-          className="btn btn-ghost lowercase text-sm font-semibold leading-6 text-gray-900"
+          className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
         >
           {loggedUser.name}
         </Link>
-      );
-    } else {
-      return (
         <Link
-          to={`/profile/${loggedUser.name}`}
-          className="text-sm font-semibold leading-6 text-gray-900"
+          to="/login"
+          className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
         >
-          {loggedUser.name}
+          注销<span aria-hidden="true">&rarr;</span>
         </Link>
-      );
-    }
+      </>
+    );
   }
 
   return (

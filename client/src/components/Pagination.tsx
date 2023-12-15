@@ -35,7 +35,7 @@ export default function Pagination({
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-col gap-4 my-4 mx-8 md:mx-48">
+      <div className="flex flex-col gap-4 my-4 mx-8 lg:mx-48">
         <TouristList items={currentItems} />
       </div>
       <div className={`flex join my-8 mx-auto ${pageCount <= 1 ? 'hidden' : ''}`}>

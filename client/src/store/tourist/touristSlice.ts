@@ -15,6 +15,7 @@ function initTouristSlice(items: ITouristItem[]) {
     data[province].push(item);
   });
   return {
+    rawTouristList: items,
     touristList: items,
     selectedProvince: 'all',
     provinceMap: data,
@@ -52,6 +53,8 @@ export const touristsSlice = createSlice({
 
 export default touristsSlice.reducer;
 
+export const selectRawTouristList = (state: { tourists: { rawTouristList: ITouristItem[] } }) =>
+  state.tourists.rawTouristList;
 export const selectTouristList = (state: { tourists: { touristList: ITouristItem[] } }) =>
   state.tourists.touristList;
 export const selectedProvince = (state: { tourists: { selectedProvince: string } }) =>

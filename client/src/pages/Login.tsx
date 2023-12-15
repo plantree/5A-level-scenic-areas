@@ -70,7 +70,16 @@ export default function Login() {
   return (
     <main className="flex-grow flex flex-col gap-8">
       <h1 className="text-2xl font-bold text-center mt-32">欢迎注册/登陆</h1>
-      <form className="flex flex-col gap-4 items-center" autoComplete="true">
+      <form
+        className="flex flex-col gap-4 items-center"
+        autoComplete="true"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            handleLogin();
+          }
+        }}
+      >
         <input
           autoComplete="email"
           type="email"

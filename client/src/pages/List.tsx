@@ -1,8 +1,11 @@
 import Pagination from '../components/Pagination';
-
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { useVisit } from '../context/visit';
+
 import {
+  selectRawTouristList,
   selectTouristList,
   selectedProvince,
   selectProvinceList,
@@ -11,13 +14,27 @@ import {
   filterByKeyword,
   setCurPage
 } from '../store/tourist/touristSlice';
+import ITouristItem from '../types/ITouristItem';
 
 export default function List() {
+  const [visited, setVisited] = useState(false);
+  const [visitedList, setVisitedList] = useState<ITouristItem[]>([]);
+  const { visits, exist } = useVisit()!;
+
   const dispatch = useDispatch();
   const provinceList = useSelector(selectProvinceList);
   const selectedProvice = useSelector(selectedProvince);
+  const rawTouristList: ITouristItem[] = useSelector(selectRawTouristList);
   const touristList = useSelector(selectTouristList);
   const curPage = useSelector(seletcCurPage);
+
+  useEffect(() => {
+    setVisitedList(rawTouristList.filter((item) => exist(item.name)));
+    console.log('useEffect');
+    return () => {
+      setVisitedList([]);
+    };
+  }, [visited, visits]);
 
   const options = provinceList.map((province: string) => (
     <option key={province}>{province}</option>
@@ -31,7 +48,7 @@ export default function List() {
           <input
             type="text"
             placeholder="景区名称"
-            className="input input-bordered input-sm max-w-xs w-2/5"
+            className="input input-bordered input-sm max-w-xs w-2/5 my-auto"
             onChange={(e) => {
               const value = e.currentTarget.value;
               dispatch(filterByKeyword(value));
@@ -39,7 +56,7 @@ export default function List() {
             }}
           />
           <select
-            className="select select-bordered select-sm max-w-xs"
+            className="select select-bordered select-sm max-w-xs my-auto"
             defaultValue={selectedProvice}
             onChange={(e) => {
               const value = e.currentTarget.value;
@@ -50,10 +67,24 @@ export default function List() {
             <option value="all">全部</option>
             {options}
           </select>
+          <div className="form-control">
+            <label className="label cursor-pointer flex gap-2">
+              <span className="label-text">只看去过</span>
+              <input
+                type="checkbox"
+                className="toggle"
+                checked={visited}
+                onChange={(e) => {
+                  const value = e.currentTarget.checked;
+                  setVisited(value);
+                }}
+              />
+            </label>
+          </div>
         </div>
         <div className="flex flex-col gap-4 my-4">
           <Pagination
-            items={touristList}
+            items={visited ? visitedList : touristList}
             curPage={curPage}
             onHandlePageChange={(page) => {
               dispatch(setCurPage(page));
