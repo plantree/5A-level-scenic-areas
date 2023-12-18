@@ -1,13 +1,12 @@
 import { Navigate, Outlet } from 'react-router-dom';
-import { useUser } from '../context/user';
+
 interface PrivateRouteProps {
   redirectPath: string;
+  isAuthenticated: boolean;
 }
 
 export default function PrivateRoute(props: PrivateRouteProps) {
-  const user = useUser();
-  const isAuthenticated = user?.current !== null;
+  const { redirectPath, isAuthenticated } = props;
 
-  const { redirectPath } = props;
   return isAuthenticated ? <Outlet /> : <Navigate to={redirectPath} />;
 }

@@ -12,10 +12,13 @@ import UserMap from './pages/UserMap.tsx';
 
 import ErrorPage from './error-page.tsx';
 
-import { UserProvider } from './context/user.tsx';
+import { UserProvider, useUser } from './context/user.tsx';
 import { VisitProvider } from './context/visit.tsx';
 
 function App() {
+  const user = useUser();
+  const isAuthenticated = user?.current !== null;
+
   return (
     <UserProvider>
       <VisitProvider>
@@ -27,10 +30,16 @@ function App() {
             <Route path="/list" element={<List />} />
             <Route path="/map" element={<Map />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/profile/:name" element={<PrivateRoute redirectPath="/login" />}>
+            <Route
+              path="/profile/:name"
+              element={<PrivateRoute redirectPath="/login" isAuthenticated={isAuthenticated} />}
+            >
               <Route path="/profile/:name" element={<Profile />} />
             </Route>
-            <Route path="/user-map/:name" element={<PrivateRoute redirectPath="/login" />}>
+            <Route
+              path="/user-map/:name"
+              element={<PrivateRoute redirectPath="/login" isAuthenticated={isAuthenticated} />}
+            >
               <Route path="/user-map/:name" element={<UserMap />} />
             </Route>
           </Route>

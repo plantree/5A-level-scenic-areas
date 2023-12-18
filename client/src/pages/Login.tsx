@@ -125,14 +125,30 @@ export default function Login() {
             登陆
           </button>
         ) : (
-          <button
-            className="btn"
-            onClick={() => {
-              handleLogout();
-            }}
-          >
-            注销
-          </button>
+          <>
+            <button
+              className="btn"
+              onClick={() => {
+                document.getElementById('logout-modal')?.showModal();
+              }}
+            >
+              注销
+            </button>
+            <dialog id="logout-modal" className="modal">
+              <div className="modal-box">
+                <h3 className="font-bold text-lg">注销</h3>
+                <p className="py-4">请确认是否注销？</p>
+                <div className="modal-action">
+                  <form method="dialog" className="flex gap-2">
+                    <button className="btn" onClick={() => handleLogout()}>
+                      确认
+                    </button>
+                    <button className="btn btn-neutral">取消</button>
+                  </form>
+                </div>
+              </div>
+            </dialog>
+          </>
         )}
       </div>
       <div

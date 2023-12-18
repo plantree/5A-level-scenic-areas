@@ -30,7 +30,6 @@ export default function List() {
 
   useEffect(() => {
     setVisitedList(rawTouristList.filter((item) => exist(item.name)));
-    console.log('useEffect');
     return () => {
       setVisitedList([]);
     };
