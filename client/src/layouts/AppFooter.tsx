@@ -2,7 +2,7 @@ export default function AppFooter() {
   return (
     <footer className="flex flex-col h-20 border-t border-slate-900/10 text-sm text-center justify-center">
       <img
-        //   src="https://api.visitor.plantree.me/visitor-badge/pv?namespace=plantree.me&key=five-a-level-scenic-area"
+        src="https://api.visitor.plantree.me/visitor-badge/pv?namespace=plantree.me&key=five-a-level-scenic-area"
         alt="Visitor Count"
         width="40"
         height="20"

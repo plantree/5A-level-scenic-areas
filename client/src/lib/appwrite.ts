@@ -1,11 +1,13 @@
+import { env } from 'node:process';
+
 import { Client, Account, Databases, ID, Permission, Role } from 'appwrite';
 
 export const client = new Client();
 
-const END_POINT = 'http://localhost/v1';
-const PROJECT_ID = '656d6955d4c0386a84d3';
-export const DATABASE_ID = '657676572d9f3eb6d337';
-export const COLLECTION_ID = '657676762f0cf9c3723b';
+const END_POINT = 'https://api.counter.plantree.me/v1';
+const PROJECT_ID = env.PROJECT_ID;
+export const DATABASE_ID = env.DATABASE_ID;
+export const COLLECTION_ID = env.COLLECTION_ID;
 
 client.setEndpoint(END_POINT).setProject(PROJECT_ID);
 

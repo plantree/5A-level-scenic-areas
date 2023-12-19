@@ -21,6 +21,7 @@ def get_list(url=tourist_url):
     """
     data = {"directoryId":"4","page":1,"size":500,"searchList":[]}
     r = requests.post(url, json=data, headers=headers)
+    id = 1
     try:
         dicts = []
         resp = r.json()
@@ -30,8 +31,10 @@ def get_list(url=tourist_url):
                 'name': item['name'],
                 'province': item['provinceName'],
                 'year': item['year'],
-                'location': get_geocode(item['name'])
+                'location': get_geocode(item['name']),
+                'id': id
             })
+            id += 1
             print('get', item['name'])
         return dicts
     except Exception:
