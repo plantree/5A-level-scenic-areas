@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { ITouristItem } from '../types/ITouristItem';
+import ITouristItem from '../types/ITouristItem';
 import TouristList from './TouristList';
 
 export default function Pagination({

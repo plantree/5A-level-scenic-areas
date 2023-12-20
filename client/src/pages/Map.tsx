@@ -2,6 +2,18 @@ import { useSelector } from 'react-redux';
 import { selectTouristList } from '../store/tourist/touristSlice';
 
 import { MapContainer, TileLayer, Marker, Popup, LayersControl } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
+const DefaultIcon = L.icon({
+  iconUrl: icon,
+  shadowUrl: iconShadow
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
 
 import { baiduCRS } from '../lib/leaflet';
 

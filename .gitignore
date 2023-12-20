@@ -131,3 +131,6 @@ dist
 
 # Python
 __pycache__
+
+# Vite
+*.local

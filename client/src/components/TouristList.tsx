@@ -5,7 +5,7 @@ import { useUser } from '../context/user';
 
 export default function TouristList({ items }: { items: ITouristItem[] }) {
   const user = useUser();
-  const isAuthenicated = !!user.current;
+  const isAuthenicated = user?.current !== null;
 
   const touristList = items.map((item: ITouristItem) => (
     <TouristItem key={item.name} item={item} />

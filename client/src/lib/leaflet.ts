@@ -1,5 +1,7 @@
 import 'leaflet/dist/leaflet.css';
+// @ts-ignore
 import { bounds, Proj } from 'leaflet';
+
 import 'proj4leaflet';
 
 // Reference:

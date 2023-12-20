@@ -129,6 +129,7 @@ export default function Login() {
             <button
               className="btn"
               onClick={() => {
+                // @ts-ignore
                 document.getElementById('logout-modal')?.showModal();
               }}
             >
