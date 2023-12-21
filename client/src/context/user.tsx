@@ -1,8 +1,6 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { account, ID } from '../lib/appwrite';
 import { Models } from 'appwrite';
-
-import { useInitOnce } from '../hooks/useInitOnce';
 
 const UserContext = createContext<{
   current: Models.User<Models.Preferences> | null;
@@ -43,9 +41,9 @@ export function UserProvider(props: { children: React.ReactNode }) {
     }
   }
 
-  useInitOnce(() => {
+  useEffect(() => {
     init();
-  });
+  }, []);
 
   return (
     <UserContext.Provider value={{ current: user, login, logout, register }}>

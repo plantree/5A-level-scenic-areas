@@ -1,11 +1,9 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import { database, DATABASE_ID, COLLECTION_ID } from '../lib/appwrite';
 import { ID, Query } from 'appwrite';
 import { account } from '../lib/appwrite';
 
 import { useUser } from './user';
-
-import { useInitOnce } from '../hooks/useInitOnce';
 
 const VisitContext = createContext<{
   visits: Map<string, string>;
@@ -74,9 +72,9 @@ export function VisitProvider(props: { children: React.ReactNode }) {
     }
   }
 
-  useInitOnce(() => {
+  useEffect(() => {
     init();
-  });
+  }, [user]);
 
   return (
     <VisitContext.Provider value={{ visits: visits, addVisit, removeVisit, exist }}>

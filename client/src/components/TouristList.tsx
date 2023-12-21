@@ -11,17 +11,19 @@ export default function TouristList({ items }: { items: ITouristItem[] }) {
     <TouristItem key={item.name} item={item} />
   ));
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>序号</th>
-          <th>名字</th>
-          <th>省份</th>
-          <th>年度</th>
-          {isAuthenicated && <th>标记</th>}
-        </tr>
-      </thead>
-      <tbody>{touristList}</tbody>
-    </table>
+    <div className="flex flex-col gap-4 my-4 mx-8 lg:mx-48">
+      <table className="table">
+        <thead>
+          <tr>
+            <th>序号</th>
+            <th>名字</th>
+            <th>省份</th>
+            <th>年度</th>
+            {isAuthenicated && <th>标记</th>}
+          </tr>
+        </thead>
+        <tbody>{touristList}</tbody>
+      </table>
+    </div>
   );
 }

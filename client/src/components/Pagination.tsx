@@ -35,9 +35,7 @@ export default function Pagination({
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-col gap-4 my-4 mx-8 lg:mx-48">
-        <TouristList items={currentItems} />
-      </div>
+      <TouristList items={currentItems} />
       <div className={`flex join my-8 mx-auto ${pageCount <= 1 ? 'hidden' : ''}`}>
         <button
           className={`join-item btn ${currentPage === 1 ? 'btn-disabled' : ''}`}

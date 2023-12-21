@@ -15,6 +15,7 @@ import {
   setCurPage
 } from '../store/tourist/touristSlice';
 import ITouristItem from '../types/ITouristItem';
+import TouristList from '../components/TouristList';
 
 export default function List() {
   const [visited, setVisited] = useState(false);
@@ -82,13 +83,17 @@ export default function List() {
           </div>
         </div>
         <div className="flex flex-col gap-4 my-4">
-          <Pagination
-            items={visited ? visitedList : touristList}
-            curPage={curPage}
-            onHandlePageChange={(page) => {
-              dispatch(setCurPage(page));
-            }}
-          />
+          {visited ? (
+            <TouristList items={visitedList} />
+          ) : (
+            <Pagination
+              items={touristList}
+              curPage={curPage}
+              onHandlePageChange={(page) => {
+                dispatch(setCurPage(page));
+              }}
+            />
+          )}
         </div>
       </div>
     </main>

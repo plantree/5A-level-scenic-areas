@@ -83,7 +83,7 @@ export default function Login() {
         <input
           autoComplete="email"
           type="email"
-          placeholder="邮箱"
+          placeholder="邮箱/必填*"
           className="input input-bordered w-2/5"
           onChange={(e) => {
             const value = e.currentTarget.value;
@@ -93,7 +93,7 @@ export default function Login() {
         <input
           autoComplete="password"
           type="password"
-          placeholder="密码"
+          placeholder="密码/必填*"
           className="input input-bordered w-2/5"
           onChange={(e) => {
             const value = e.currentTarget.value;
@@ -103,7 +103,7 @@ export default function Login() {
         <input
           autoComplete="username"
           type="text"
-          placeholder="用户名"
+          placeholder="用户名/登陆时可不填"
           className="input input-bordered  w-2/5"
           onChange={(e) => {
             const value = e.currentTarget.value;
@@ -127,7 +127,7 @@ export default function Login() {
         ) : (
           <>
             <button
-              className="btn"
+              className="btn btn-neutral"
               onClick={() => {
                 // @ts-ignore
                 document.getElementById('logout-modal')?.showModal();
