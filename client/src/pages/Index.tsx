@@ -21,10 +21,10 @@ export default function Index() {
         </h1>
       </div>
       <div className="flex flex-row justify-center gap-4 mt-16">
-        <Link to="/list" className="btn btn-neutral md:btn-lg px-4 w-1/4">
+        <Link to="/list" className="btn btn-neutral md:btn-lg px-4 w-1/3 md:1/4">
           开始探索<span aria-hidden="true">&rarr;</span>
         </Link>
-        <Link to="/login" className="btn md:btn-lg px-4 w-1/4">
+        <Link to="/login" className="btn md:btn-lg px-4 w-1/3 md:1/4">
           {isAuthenticated ? '注销' : '登陆'}
         </Link>
       </div>

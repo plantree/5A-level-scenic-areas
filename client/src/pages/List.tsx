@@ -41,10 +41,10 @@ export default function List() {
   ));
 
   return (
-    <main className="flex-grow mt-4 mx-4">
+    <main className="flex-grow mt-4 md:mx-4">
       <div className="flex flex-col gap-4">
         <h2 className="font-bold text-lg text-center">5A级景区筛选</h2>
-        <div className="flex gap-x-4 justify-center">
+        <div className="flex gap-1 md:gap-4 justify-center">
           <input
             type="text"
             placeholder="景区名称"
@@ -68,7 +68,7 @@ export default function List() {
             {options}
           </select>
           <div className="form-control">
-            <label className="label cursor-pointer flex gap-2">
+            <label className="label cursor-pointer flex gap-1 md:gap-2">
               <span className="label-text">只看去过</span>
               <input
                 type="checkbox"

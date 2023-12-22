@@ -84,7 +84,7 @@ export default function Login() {
           autoComplete="email"
           type="email"
           placeholder="邮箱/必填*"
-          className="input input-bordered w-2/5"
+          className="input input-bordered w-3/4 md:w-2/5"
           onChange={(e) => {
             const value = e.currentTarget.value;
             setEmail(value);
@@ -94,7 +94,7 @@ export default function Login() {
           autoComplete="password"
           type="password"
           placeholder="密码/必填*"
-          className="input input-bordered w-2/5"
+          className="input input-bordered w-3/4 md:w-2/5"
           onChange={(e) => {
             const value = e.currentTarget.value;
             setPassword(value);
@@ -104,14 +104,14 @@ export default function Login() {
           autoComplete="username"
           type="text"
           placeholder="用户名/登陆时可不填"
-          className="input input-bordered  w-2/5"
+          className="input input-bordered w-3/4 md:w-2/5"
           onChange={(e) => {
             const value = e.currentTarget.value;
             setName(value);
           }}
         />
       </form>{' '}
-      <div className="flex flex-row gap-4 justify-center">
+      <div className="flex flex-row gap-8 justify-center">
         <button className="btn" onClick={() => handleRegister()}>
           注册
         </button>

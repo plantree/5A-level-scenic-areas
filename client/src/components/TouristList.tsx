@@ -11,7 +11,7 @@ export default function TouristList({ items }: { items: ITouristItem[] }) {
     <TouristItem key={item.name} item={item} />
   ));
   return (
-    <div className="flex flex-col gap-4 my-4 mx-8 lg:mx-48">
+    <div className="flex flex-col gap-4 md:my-4 md:mx-8 lg:mx-48">
       <table className="table">
         <thead>
           <tr>
