@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dialog } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import GitHub from '../components/icons/GitHub';
 
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { useUser } from '../context/user';
 
@@ -12,6 +12,12 @@ export default function AppHeader() {
   const loggedUser = user?.current;
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // listen to router change
+  const location = useLocation();
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location]);
 
   function handleLogin() {
     if (!mobileMenuOpen) {
