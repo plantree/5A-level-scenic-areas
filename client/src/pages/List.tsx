@@ -42,7 +42,7 @@ export default function List() {
 
   return (
     <main className="flex-grow mt-4 md:mx-4">
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 mx-2">
         <h2 className="font-bold text-lg text-center">5A级景区筛选</h2>
         <div className="flex gap-1 md:gap-4 justify-center">
           <input

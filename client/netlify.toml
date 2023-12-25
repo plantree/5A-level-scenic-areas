@@ -2,7 +2,25 @@
   from = "/*"
   to = "/"
   status = 200
+  
+[build]
+  publish = "dist"
+  command = "pnpm run build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
 [[headers]]
-  for = "/*"
+  for = "/manifest.webmanifest"
   [headers.values]
-    Access-Control-Allow-Origin = "https://plantree.me"
+    Content-Type = "application/manifest+json"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    cache-control = '''
+    max-age=31536000,
+    immutable
+    '''
