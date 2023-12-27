@@ -46,6 +46,7 @@ export default function TouristItem({ item }: { item: ITouristItem }) {
               toggleChecked();
               e.stopPropagation();
             }}
+            onChange={() => {}}
           />
         </td>
       )}
