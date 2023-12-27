@@ -1,4 +1,4 @@
-import { Client, Account, Databases, ID, Permission, Role } from 'appwrite';
+import { Client, Account, Databases } from 'appwrite';
 
 export const client = new Client();
 
@@ -15,17 +15,12 @@ export { ID } from 'appwrite';
 
 // Database.
 export const database = new Databases(client);
-export async function createUser(name: string) {
-  try {
-    return await database.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), { name: name }, [
-      Permission.read(Role.any()), // Anyone can view this document
-      Permission.update(Role.team('writers')), // Writers can update this document
-      Permission.update(Role.team('admin')), // Admins can update this document
-      Permission.delete(Role.user('5c1f88b42259e')), // User 5c1f88b42259e can delete this document
-      Permission.delete(Role.team('admin'))
-    ]);
-  } catch (e) {
-    console.error(e);
-  }
-  return null;
+export async function generateId(text: string) {
+  const encoder = new TextEncoder();
+  const buffer = encoder.encode(text);
+
+  const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map((byte) => byte.toString(16).padStart(2, '0')).join('');
+  return hashHex.slice(0, 24);
 }

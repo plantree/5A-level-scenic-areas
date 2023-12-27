@@ -19,8 +19,7 @@ function initTouristSlice(items: ITouristItem[]) {
     touristList: items,
     selectedProvince: 'all',
     provinceMap: data,
-    provinceList: Array.from(provinceList),
-    curPage: 1 // for pagination
+    provinceList: Array.from(provinceList)
   };
 }
 
@@ -44,9 +43,6 @@ export const touristsSlice = createSlice({
       } else {
         state.touristList = TouristData.filter((item: ITouristItem) => item.name.includes(keyword));
       }
-    },
-    setCurPage: (state, action) => {
-      state.curPage = action.payload;
     }
   }
 });
@@ -61,6 +57,5 @@ export const selectedProvince = (state: { tourists: { selectedProvince: string }
   state.tourists.selectedProvince;
 export const selectProvinceList = (state: { tourists: { provinceList: string[] } }) =>
   state.tourists.provinceList;
-export const seletcCurPage = (state: { tourists: { curPage: number } }) => state.tourists.curPage;
 
-export const { filterByProvince, filterByKeyword, setCurPage } = touristsSlice.actions;
+export const { filterByProvince, filterByKeyword } = touristsSlice.actions;

@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { database, DATABASE_ID, COLLECTION_ID } from '../lib/appwrite';
-import { ID, Query } from 'appwrite';
-import { account } from '../lib/appwrite';
+import { Query } from 'appwrite';
+import { account, generateId } from '../lib/appwrite';
 
 import { useUser } from './user';
 
@@ -29,10 +29,15 @@ export function VisitProvider(props: { children: React.ReactNode }) {
     if (exist(name)) {
       return;
     }
-    const response = await database.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
-      user_name: user!.current!.name,
-      visit: name
-    });
+    const response = await database.createDocument(
+      DATABASE_ID,
+      COLLECTION_ID,
+      await generateId(user!.current!.email + name),
+      {
+        user_name: user!.current!.email,
+        visit: name
+      }
+    );
     setVisits(visits.set(name, response.$id));
   }
 
@@ -63,7 +68,9 @@ export function VisitProvider(props: { children: React.ReactNode }) {
     try {
       const response = await database.listDocuments(DATABASE_ID, COLLECTION_ID, [
         Query.orderDesc('$createdAt'),
-        Query.equal('user_name', user!.name)
+        Query.equal('user_name', user!.email),
+        Query.limit(400),
+        Query.offset(0)
       ]);
       setVisits(response.documents.reduce((map, doc) => map.set(doc.visit, doc.$id), new Map()));
     } catch (e) {

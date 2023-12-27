@@ -11,12 +11,27 @@ export default function TouristItem({ item }: { item: ITouristItem }) {
   const { addVisit, removeVisit, exist } = useVisit()!;
 
   const [checked, setChecked] = useState<boolean>(false);
+
+  function toggleChecked() {
+    if (!checked) {
+      addVisit(item.name);
+      setChecked(true);
+    } else {
+      removeVisit(item.name);
+      setChecked(false);
+    }
+  }
   useEffect(() => {
     setChecked(exist(item.name));
   }, [item, exist]);
 
   return (
-    <tr>
+    <tr
+      className="hover:bg-neutral-content"
+      onClick={() => {
+        toggleChecked();
+      }}
+    >
       <td>{item.id}</td>
       <td>{item.name}</td>
       <td>{item.province}</td>
@@ -27,15 +42,9 @@ export default function TouristItem({ item }: { item: ITouristItem }) {
             type="checkbox"
             checked={checked}
             className="checkbox"
-            onChange={(e) => {
-              const value = e.currentTarget.checked;
-              if (value) {
-                addVisit(item.name);
-                setChecked(true);
-              } else {
-                removeVisit(item.name);
-                setChecked(false);
-              }
+            onClick={(e) => {
+              toggleChecked();
+              e.stopPropagation();
             }}
           />
         </td>

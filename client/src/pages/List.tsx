@@ -9,10 +9,8 @@ import {
   selectTouristList,
   selectedProvince,
   selectProvinceList,
-  seletcCurPage,
   filterByProvince,
-  filterByKeyword,
-  setCurPage
+  filterByKeyword
 } from '../store/tourist/touristSlice';
 import ITouristItem from '../types/ITouristItem';
 import TouristList from '../components/TouristList';
@@ -20,6 +18,7 @@ import TouristList from '../components/TouristList';
 export default function List() {
   const [visited, setVisited] = useState(false);
   const [visitedList, setVisitedList] = useState<ITouristItem[]>([]);
+  const [curPage, setCurPage] = useState(1);
   const { visits, exist } = useVisit()!;
 
   const dispatch = useDispatch();
@@ -27,7 +26,6 @@ export default function List() {
   const selectedProvice = useSelector(selectedProvince);
   const rawTouristList: ITouristItem[] = useSelector(selectRawTouristList);
   const touristList = useSelector(selectTouristList);
-  const curPage = useSelector(seletcCurPage);
 
   useEffect(() => {
     setVisitedList(rawTouristList.filter((item) => exist(item.name)));
@@ -51,8 +49,8 @@ export default function List() {
             className="input input-bordered input-sm max-w-xs w-2/5 my-auto"
             onChange={(e) => {
               const value = e.currentTarget.value;
+              curPage !== 1 && setCurPage(1);
               dispatch(filterByKeyword(value));
-              curPage !== 1 && dispatch(setCurPage(1));
             }}
           />
           <select
@@ -60,8 +58,8 @@ export default function List() {
             defaultValue={selectedProvice}
             onChange={(e) => {
               const value = e.currentTarget.value;
+              curPage !== 1 && setCurPage(1);
               dispatch(filterByProvince(value));
-              curPage !== 1 && dispatch(setCurPage(1));
             }}
           >
             <option value="all">全部</option>
@@ -90,7 +88,7 @@ export default function List() {
               items={touristList}
               curPage={curPage}
               onHandlePageChange={(page) => {
-                dispatch(setCurPage(page));
+                setCurPage(page);
               }}
             />
           )}

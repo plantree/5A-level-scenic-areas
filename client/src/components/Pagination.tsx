@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import ITouristItem from '../types/ITouristItem';
 import TouristList from './TouristList';
@@ -15,6 +15,8 @@ export default function Pagination({
   pageSize?: number;
 }) {
   const [currentPage, setCurrentPage] = useState(curPage);
+  const [currentItems, setCurrentItems] = useState<ITouristItem[]>([]);
+
   const pageCount = Math.ceil(items.length / pageSize);
 
   function goto_previous() {
@@ -29,9 +31,13 @@ export default function Pagination({
     onHandlePageChange && onHandlePageChange(page);
   }
 
-  const indexOfLastItem = currentPage * pageSize;
-  const indexOfFirstItem = indexOfLastItem - pageSize;
-  const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+  useEffect(() => {
+    // re-render
+    setCurrentPage(curPage);
+    const indexOfLastItem = curPage * pageSize;
+    const indexOfFirstItem = indexOfLastItem - pageSize;
+    setCurrentItems(items.slice(indexOfFirstItem, indexOfLastItem));
+  }, [items, curPage]);
 
   return (
     <div className="flex flex-col">
@@ -45,7 +51,25 @@ export default function Pagination({
         >
           «
         </button>
+        <button
+          className={`join-item btn ${currentPage === 1 ? 'btn-disabled' : ''}`}
+          onClick={() => {
+            setCurrentPage(1);
+            onHandlePageChange && onHandlePageChange(1);
+          }}
+        >
+          首页
+        </button>
         <button className="join-item btn">{currentPage}</button>
+        <button
+          className={`join-item btn ${currentPage === pageCount ? 'btn-disabled' : ''}`}
+          onClick={() => {
+            setCurrentPage(pageCount);
+            onHandlePageChange && onHandlePageChange(pageCount);
+          }}
+        >
+          尾页
+        </button>
         <button
           className={`join-item btn ${currentPage === pageCount ? 'btn-disabled' : ''}`}
           onClick={() => {
